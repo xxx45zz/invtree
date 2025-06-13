@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sleek Inventory Management</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Modern Technological Sophistication Theme Colors */
+            --base-dark: #2C3E50; /* Muted Navy - Primary background/deep elements */
+            --base-charcoal: #212121; /* Deep Charcoal - Stronger accents, text */
+            --accent-white: #ECF0F1; /* Off-White - General text, light backgrounds */
+            --accent-pure-white: #FFFFFF; /* Pure White - Crisp elements, card backgrounds */
+            --highlight-cyan: #3498DB; /* Cool, Desaturated Cyan - Innovation, interactive elements */
+            --highlight-electric-blue: #00FFFF; /* Electric Blue - Strongest highlights, active states */
+
+            /* Neutral Tones for borders and subtle elements */
+            --border-light-gray: #BDC3C7;
+            --border-dark-gray: #4A6070;
+
+            /* Alert Colors (adjusted for theme) */
+            --alert-warning-bg: #FCF3CF; /* Light yellow for warnings */
+            --alert-warning-text: #B7950B;
+            --alert-warning-border: #F7DC6A;
+
+            --alert-error-bg: #FDEDEC; /* Light red for errors */
+            --alert-error-text: #C0392B;
+            --alert-error-border: #E74C3C;
+
+            --alert-success-bg: #D4EFDF; /* Light green for success */
+            --alert-success-text: #28B463;
+            --alert-success-border: #2ECC71;
+
+            --border-radius-elements: 8px; /* Consistent border radius */
+            --border-radius-containers: 12px;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--base-dark); /* Deep charcoal/muted navy base */
+            color: var(--accent-white); /* Light text on dark background */
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Navigation Links */
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px; /* Space above main content */
+            width: 100%;
+            max-width: 1200px;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            font-weight: 600;
+            color: var(--highlight-cyan); /* Highlight color for links */
+            padding: 10px 18px;
+            border-radius: var(--border-radius-elements);
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+            display: inline-block;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--highlight-cyan); /* Subtle border for links */
+        }
+
+        .nav-links a:hover {
+            background-color: var(--highlight-cyan);
+            color: var(--base-dark); /* Dark text on highlight hover */
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+        }
+
+        h2 {
+            color: var(--highlight-electric-blue); /* Electric blue for main headings */
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 700;
+            font-size: 2.2em; /* Slightly larger, more impactful */
+            letter-spacing: 1px;
+        }
+
+        .container {
+            background-color: var(--base-charcoal); /* Dark card background */
+            padding: 30px;
+            border-radius: var(--border-radius-containers);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); /* Deeper shadow */
+            width: 95%;
+            max-width: 1200px;
+            box-sizing: border-box;
+            border: 1px solid var(--border-dark-gray); /* Subtle container border */
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: var(--border-radius-elements);
+            margin-bottom: 25px;
+            text-align: center;
+            font-weight: 500; /* Slightly bolder text for alerts */
+            border: 1px solid; /* Defined by specific alert type */
+        }
+        .alert.error {
+            background-color: var(--alert-error-bg);
+            color: var(--alert-error-text);
+            border-color: var(--alert-error-border);
+        }
+        .alert.warning { /* Added .warning class for completeness */
+            background-color: var(--alert-warning-bg);
+            color: var(--alert-warning-text);
+            border-color: var(--alert-warning-border);
+        }
+        .alert.success {
+            background-color: var(--alert-success-bg);
+            color: var(--alert-success-text);
+            border-color: var(--alert-success-border);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 0 auto 30px auto;
+            border-radius: var(--border-radius-containers);
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Table shadow */
+            background-color: #34495E; /* Slightly lighter navy for table body */
+            border: 1px solid var(--border-dark-gray);
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #4A6070; /* Darker border for separation */
+            color: var(--accent-white); /* Light text for table content */
+        }
+
+        th {
+            background-color: var(--base-charcoal); /* Deep charcoal for table header */
+            color: var(--highlight-electric-blue); /* Electric blue text on header */
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.9em;
+            letter-spacing: 0.8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: rgba(0, 0, 0, 0.1); /* Subtle dark stripe */
+        }
+
+        tr:hover {
+            background-color: #4A6070; /* Hover effect with a darker navy */
+            transition: background-color 0.3s ease;
+        }
+
+        td input[type="number"],
+        td select {
+            width: calc(100% - 20px);
+            padding: 8px 10px;
+            border: 1px solid var(--border-dark-gray);
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 0.9em;
+            background-color: var(--base-dark); /* Dark input background */
+            color: var(--accent-white); /* Light input text */
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            outline: none;
+        }
+
+        td input[type="number"]:focus,
+        td select:focus {
+            border-color: var(--highlight-electric-blue);
+            box-shadow: 0 0 5px rgba(0, 255, 255, 0.4); /* Electric blue glow */
+        }
+
+        input[type="radio"] {
+            transform: scale(1.3);
+            cursor: pointer;
+            accent-color: var(--highlight-cyan); /* Styles the actual radio button */
+        }
+
+        .btn {
+            background-color: var(--highlight-cyan); /* Cyan for primary buttons */
+            color: var(--base-dark); /* Dark text on cyan button */
+            padding: 10px 20px;
+            font-size: 0.9em;
+            border: none;
+            border-radius: var(--border-radius-elements);
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin: 5px;
+            display: inline-block;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        .btn.danger {
+            background-color: #E74C3C; /* Red for danger actions */
+            color: var(--accent-pure-white); /* White text on red button */
+        }
+
+        .btn:hover {
+            background-color: var(--highlight-electric-blue); /* More vibrant electric blue on hover */
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        .btn.danger:hover {
+            background-color: #C0392B; /* Darker red on hover */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Form for adding new product */
+        .add-product-form {
+            background-color: #34495E; /* Slightly lighter navy for form background */
+            padding: 25px;
+            border-radius: var(--border-radius-containers);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+            border: 1px solid var(--border-dark-gray);
+        }
+        .add-product-form h3 {
+            color: var(--highlight-cyan); /* Cyan for form sub-heading */
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            font-weight: 600;
+        }
+        .add-product-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--accent-white); /* Light text for labels */
+        }
+        .add-product-form input[type="text"],
+        .add-product-form input[type="number"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid var(--border-dark-gray);
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 1em;
+            background-color: var(--base-dark); /* Dark input background */
+            color: var(--accent-white); /* Light input text */
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            outline: none;
+        }
+        .add-product-form input[type="text"]:focus,
+        .add-product-form input[type="number"]:focus {
+            border-color: var(--highlight-electric-blue);
+            box-shadow: 0 0 5px rgba(0, 255, 255, 0.4);
+        }
+        .add-product-form button {
+            width: auto;
+            padding: 12px 25px;
+            font-size: 1em;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1000; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.7); /* Black w/ opacity */
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .modal-content {
+            background-color: var(--base-charcoal);
+            margin: auto;
+            padding: 30px;
+            border: 1px solid var(--border-dark-gray);
+            border-radius: var(--border-radius-containers);
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            position: relative;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .close-button {
+            color: var(--accent-white);
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            font-size: 35px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .close-button:hover,
+        .close-button:focus {
+            color: var(--highlight-electric-blue);
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                padding: 20px;
+            }
+            table, thead, tbody, th, td, tr {
+                display: block;
+            }
+            thead tr {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+            tr {
+                border: 1px solid var(--border-dark-gray);
+                margin-bottom: 15px;
+                border-radius: var(--border-radius-containers);
+            }
+            td {
+                border: none;
+                position: relative;
+                padding-left: 50%;
+                text-align: left;
+            }
+            td:before {
+                content: attr(data-label);
+                position: absolute;
+                left: 10px;
+                width: 45%;
+                padding-right: 10px;
+                white-space: nowrap;
+                font-weight: 700;
+                color: var(--highlight-cyan); /* Highlight label in responsive view */
+            }
+            td:first-of-type {
+                border-top-left-radius: var(--border-radius-containers);
+                border-top-right-radius: var(--border-radius-containers);
+            }
+            td:last-of-type {
+                border-bottom-left-radius: var(--border-radius-containers);
+                border-bottom-right-radius: var(--border-radius-containers);
+                border-bottom: none;
+            }
+            .btn {
+                width: calc(100% - 10px);
+                margin: 5px auto;
+                display: block;
+            }
+            .add-product-form input[type="text"],
+            .add-product-form input[type="number"] {
+                width: 100%;
+            }
+            .modal-content {
+                width: 95%; /* Adjust modal width for smaller screens */
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="nav-links">
+    <a href="{{ url_for('dashboard') }}" >HOME</a>
+    
+    <a href="{{ url_for('sales') }}">Sales Insights</a>
+    <a href="{{ url_for('pos') }}" target="_blank">Point of Sale</a>
+    <a href="{{ url_for('inventory') }}">↻</a>
+</div>
+
+<div class="container">
+    <h2>Inventory Management</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert {{ category if category != 'message' else '' }}">
+                    <p>{{ message }}</p>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <button id="openAddProductModalBtn" class="btn" style="margin-bottom: 20px;">Add New Product</button>
+
+    <div id="addProductModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <div class="add-product-form">
+                <h3>Add New Product</h3>
+                <form method="POST">
+                    <input type="hidden" name="action" value="add_product">
+                    <label for="name">Product Name:</label>
+                    <input type="text" id="name" name="name" required>
+                    <label for="price">Price:</label>
+                    <input type="number" id="price" name="price" step="0.01" min="0" required>
+                    <label for="quantity">Initial Quantity:</label>
+                    <input type="number" id="quantity" name="quantity" min="0" required>
+                    <button type="submit" class="btn">Add Product</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Product Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+            <tr>
+                <td data-label="ID">{{ product.id }}</td>
+                <td data-label="Product Name">{{ product.name }}</td>
+                <td data-label="Price">${{ "%.2f"|format(product.price) }}</td>
+                <td data-label="Quantity">{{ product.quantity }}</td>
+                <td data-label="Actions">
+                    <form method="POST" style="display:inline-block;">
+                        <input type="hidden" name="action" value="add_stock">
+                        <input type="hidden" name="product_id" value="{{ product.id }}">
+                        <input type="number" name="add_qty" value="1" min="1" style="width: 60px;">
+                        <button type="submit" class="btn">Add</button>
+                    </form>
+                    <form method="POST" style="display:inline-block;">
+                        <input type="hidden" name="action" value="subtract_stock">
+                        <input type="hidden" name="product_id" value="{{ product.id }}">
+                        <input type="number" name="subtract_qty" value="1" min="1" style="width: 60px;">
+                        <button type="submit" class="btn">Subtract</button>
+                    </form>
+                    <form method="POST" style="display:inline-block;" onsubmit="return confirm('Are you sure you want to delete this product? This action cannot be undone.');">
+                        <input type="hidden" name="action" value="delete_product">
+                        <input type="hidden" name="product_id" value="{{ product.id }}">
+                        <button type="submit" class="btn danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+    // Get the modal
+    var modal = document.getElementById("addProductModal");
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("openAddProductModalBtn");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close-button")[0];
+
+    // When the user clicks the button, open the modal 
+    btn.onclick = function() {
+      modal.style.display = "flex"; // Use flex to center the modal content
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+      modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+</script>
+
+</body>
+</html>

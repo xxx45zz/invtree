@@ -1,0 +1,131 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 20px;
+    background-color: #e6f2f1;
+    color: #0b3d3f;
+}
+
+nav a {
+    margin-right: 15px;
+    text-decoration: none;
+    font-weight: 600;
+    color: #1a7a74;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+nav a:hover {
+    background-color: #139487;
+    color: #e6f2f1;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    background-color: #ffffff;
+    box-shadow: 0 0 8px rgba(19, 148, 135, 0.2);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+table, th, td {
+    border: 1px solid #8bd3c7;
+}
+
+th, td {
+    padding: 10px 15px;
+    text-align: left;
+}
+
+th {
+    background-color: #139487;
+    color: #e6f2f1;
+    font-weight: 700;
+}
+
+.messages {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 20px;
+}
+
+.messages li {
+    padding: 12px 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    font-weight: 600;
+}
+
+.messages li.error {
+    background-color: #fce4e4;
+    color: #b22222;
+    border: 1px solid #b22222;
+}
+
+.messages li.message {
+    background-color: #d6f0ea;
+    color: #0b5345;
+    border: 1px solid #0b5345;
+}
+
+form input[type="number"],
+form input[type="text"],
+form input[type="float"],
+form input[type="email"],
+form select {
+    padding: 8px 10px;
+    border: 1.5px solid #8bd3c7;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #0b3d3f;
+    outline: none;
+    transition: border-color 0.3s ease;
+    width: 120px;
+}
+
+form input[type="number"]:focus,
+form input[type="text"]:focus,
+form input[type="float"]:focus,
+form input[type="email"]:focus,
+form select:focus {
+    border-color: #139487;
+}
+
+form button {
+    background-color: #139487;
+    color: #e6f2f1;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 4px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+form button:hover {
+    background-color: #0e746d;
+}
+
+form {
+    margin-bottom: 30px;
+}
+form > div.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 12px;
+}
+form > div.grid label {
+    display: block;
+    padding: 10px;
+    border: 2px solid #007bff;
+    border-radius: 10px;
+    background-color: #f8f9fa;
+    cursor: pointer;
+}
+input[type="radio"]:checked + label {
+    border-color: #28a745;
+    background-color: #e6ffe6;
+}
+

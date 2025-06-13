@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>InvTree Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style type="text/css">
+        /* Splash Screen Styles */
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Hide scrollbar during splash */
+            height: 100vh;
+            background-color: #000;
+            font-family: Arial, sans-serif;
+        }
+
+        #preloader {
+            background-color: #000;
+            width: 100%;
+            height: 100vh;
+            position: fixed;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .splash-container {
+            position: relative;
+            color: white;
+            font-size: 5em;
+            font-weight: bold;
+        }
+
+        .letter {
+            position: absolute;
+            opacity: 0;
+            transition: transform 1s, opacity 1s;
+        }
+
+        #letter-i {
+            left: -100px;
+        }
+
+        #letter-t {
+            right: -100px;
+        }
+
+        .final-logo {
+            opacity: 0;
+            transform: scale(0.5);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        /* Dashboard Styles - Merged and adapted from your original dashboard CSS */
+        :root {
+            /* Modern Technological Sophistication Theme Colors */
+            --base-dark: #2C3E50; /* Muted Navy */
+            --base-charcoal: #212121; /* Deep Charcoal for very dark accents */
+            --accent-white: #ECF0F1; /* Off-White */
+            --accent-pure-white: #FFFFFF; /* Pure White for crispness */
+            --highlight-cyan: #3498DB; /* Cool, Desaturated Cyan */
+            --highlight-electric-blue: #00FFFF; /* Electric Blue for strong innovation emphasis */
+
+            /* Redefining Light Mode to fit the new theme's "light" interpretation */
+            --light-bg-color: var(--accent-white);
+            --light-text-color: var(--base-dark);
+            --light-header-color: var(--base-charcoal);
+            --light-card-bg: var(--accent-pure-white);
+            --light-card-shadow: rgba(0, 0, 0, 0.1);
+            --light-border-color: #BDC3C7; /* Lighter grey for subtle borders */
+            --light-table-header-bg: var(--base-dark);
+            --light-table-header-text: var(--accent-pure-white);
+            --light-link-color: var(--highlight-cyan);
+            --light-link-hover-bg: var(--base-dark);
+            --light-link-hover-text: var(--accent-pure-white);
+            --light-message-error-bg: #FDE8D9; /* Light red for errors, still subtle */
+            --light-message-error-text: #E74C3C;
+            --light-message-error-border: #E74C3C;
+            --light-message-success-bg: #D4EDDA; /* Light green for success, subtle */
+            --light-message-success-text: #28A745;
+            --light-message-success-border: #28A745;
+            --light-input-border: #BDC3C7;
+            --light-input-focus-border: var(--highlight-cyan);
+            --light-button-bg: var(--base-dark);
+            --light-button-text: var(--accent-pure-white);
+            --light-button-hover-bg: var(--highlight-cyan);
+            --light-radio-border: var(--highlight-cyan);
+            --light-radio-bg: var(--accent-pure-white);
+            --light-radio-checked-border: var(--highlight-cyan);
+            --light-radio-checked-bg: #EAF7FE; /* Very light blue for checked radio */
+
+
+            /* Dark Mode Colors (Main focus of the theme) */
+            --dark-bg-color: var(--base-dark);
+            --dark-text-color: var(--accent-white);
+            --dark-header-color: var(--highlight-cyan);
+            --dark-card-bg: #34495E; /* Slightly lighter navy for cards */
+            --dark-card-shadow: rgba(0, 0, 0, 0.6);
+            --dark-border-color: #4A6070; /* Darker grey for borders */
+            --dark-table-header-bg: var(--base-charcoal);
+            --dark-table-header-text: var(--highlight-electric-blue);
+            --dark-link-color: var(--highlight-electric-blue);
+            --dark-link-hover-bg: #2C3E50; /* Hover to main base color */
+            --dark-link-hover-text: var(--highlight-electric-blue);
+            --dark-message-error-bg: #6C3428; /* Darker red for error */
+            --dark-message-error-text: #FADBD8;
+            --dark-message-error-border: #C0392B;
+            --dark-message-success-bg: #2874A6; /* Darker blue for success */
+            --dark-message-success-text: #D6EAF8;
+            --dark-message-success-border: #3498DB;
+            --dark-input-border: #4A6070;
+            --dark-input-focus-border: var(--highlight-electric-blue);
+            --dark-button-bg: var(--highlight-cyan);
+            --dark-button-text: var(--base-dark); /* Dark text on bright button */
+            --dark-button-hover-bg: var(--highlight-electric-blue);
+            --dark-radio-border: var(--highlight-electric-blue);
+            --dark-radio-bg: var(--base-charcoal);
+            --dark-radio-checked-border: var(--highlight-electric-blue);
+            --dark-radio-checked-bg: #1B4F72; /* Darker blue for checked radio */
+        }
+
+        #main-content {
+            font-family: 'Poppins', sans-serif;
+            padding: 20px;
+            background-color: var(--light-bg-color);
+            color: var(--light-text-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: auto; /* Allow scrolling once loaded */
+        }
+
+        #main-content.dark-mode {
+            background-color: var(--dark-bg-color);
+            color: var(--dark-text-color);
+        }
+
+        /* Dark Mode Toggle */
+        .theme-switch-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
+
+        .theme-switch {
+            display: inline-block;
+            height: 34px;
+            position: relative;
+            width: 60px;
+        }
+
+        .theme-switch input {
+            display: none;
+        }
+
+        .slider {
+            background-color: var(--dark-card-bg); /* Use a themed color */
+            bottom: 0;
+            left: 0;
+            right: 0;
+            top: 0;
+            cursor: pointer;
+            position: absolute;
+            transition: .4s;
+            border-radius: 34px;
+            border: 1px solid var(--dark-border-color); /* Subtle border */
+        }
+
+        .slider:before {
+            background-color: var(--accent-white);
+            bottom: 4px;
+            content: "";
+            height: 26px;
+            left: 4px;
+            position: absolute;
+            transition: .4s;
+            width: 26px;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--highlight-cyan);
+            border-color: var(--highlight-electric-blue);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+            background-color: var(--accent-pure-white); /* White knob when checked */
+        }
+
+        h1 {
+            color: var(--light-header-color);
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 2.5em; /* Larger, more impactful heading */
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        #main-content.dark-mode h1 {
+            color: var(--dark-header-color);
+        }
+
+        nav {
+            text-align: center;
+            margin-top: 30px;
+            margin-bottom: 40px;
+        }
+
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            font-weight: 600;
+            color: var(--light-link-color);
+            padding: 10px 18px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+            display: inline-block;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Softer shadow */
+        }
+
+        nav a:hover {
+            background-color: var(--light-link-hover-bg);
+            color: var(--light-link-hover-text);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* More prominent hover shadow */
+        }
+
+        #main-content.dark-mode nav a {
+            color: var(--dark-link-color);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        #main-content.dark-mode nav a:hover {
+            background-color: var(--dark-link-hover-bg);
+            color: var(--dark-link-hover-text);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background-color: var(--light-card-bg);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px var(--light-card-shadow);
+            text-align: center;
+            transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid var(--light-border-color); /* Subtle border for cards */
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px var(--light-card-shadow); /* Enhanced shadow on hover */
+        }
+
+        #main-content.dark-mode .card {
+            background-color: var(--dark-card-bg);
+            box-shadow: 0 4px 15px var(--dark-card-shadow);
+            border: 1px solid var(--dark-border-color);
+        }
+
+        #main-content.dark-mode .card:hover {
+            box-shadow: 0 6px 20px var(--dark-card-shadow);
+        }
+
+        .card h2 {
+            margin-top: 0;
+            font-size: 1.3em;
+            color: var(--light-header-color);
+            margin-bottom: 10px;
+        }
+
+        #main-content.dark-mode .card h2 {
+            color: var(--dark-header-color);
+        }
+
+        .card p {
+            font-size: 2.2em; /* Slightly larger for emphasis */
+            font-weight: 700;
+            color: var(--light-text-color);
+        }
+
+        #main-content.dark-mode .card p {
+            color: var(--dark-text-color);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 25px;
+            background-color: var(--light-card-bg);
+            box-shadow: 0 4px 15px var(--light-card-shadow);
+            border-radius: 12px;
+            overflow: hidden; /* Ensures rounded corners apply to content */
+            border: 1px solid var(--light-border-color);
+        }
+
+        #main-content.dark-mode table {
+            background-color: var(--dark-card-bg);
+            box-shadow: 0 4px 15px var(--dark-card-shadow);
+            border: 1px solid var(--dark-border-color);
+        }
+
+        table, th, td {
+            border: 1px solid var(--light-border-color);
+        }
+
+        #main-content.dark-mode table, #main-content.dark-mode th, #main-content.dark-mode td {
+            border: 1px solid var(--dark-border-color);
+        }
+
+        th, td {
+            padding: 12px 20px;
+            text-align: left;
+        }
+
+        th {
+            background-color: var(--light-table-header-bg);
+            color: var(--light-table-header-text);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.9em;
+            letter-spacing: 0.5px;
+        }
+
+        #main-content.dark-mode th {
+            background-color: var(--dark-table-header-bg);
+            color: var(--dark-table-header-text);
+        }
+
+        tr:nth-child(even) {
+            background-color: rgba(0, 0, 0, 0.03); /* Very subtle light stripe */
+        }
+
+        #main-content.dark-mode tr:nth-child(even) {
+            background-color: rgba(0, 0, 0, 0.1); /* More visible dark stripe */
+        }
+
+        .messages {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 25px;
+        }
+
+        .messages li {
+            padding: 15px 20px;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            border: 1px solid; /* Defined by specific message type */
+        }
+
+        .messages li.error {
+            background-color: var(--light-message-error-bg);
+            color: var(--light-message-error-text);
+            border-color: var(--light-message-error-border);
+        }
+
+        #main-content.dark-mode .messages li.error {
+            background-color: var(--dark-message-error-bg);
+            color: var(--dark-message-error-text);
+            border-color: var(--dark-message-error-border);
+        }
+
+        .messages li.message { /* Using .message as it is in your HTML */
+            background-color: var(--light-message-success-bg);
+            color: var(--light-message-success-text);
+            border-color: var(--light-message-success-border);
+        }
+
+        #main-content.dark-mode .messages li.message {
+            background-color: var(--dark-message-success-bg);
+            color: var(--dark-message-success-text);
+            border-color: var(--dark-message-success-border);
+        }
+
+        form {
+            background-color: var(--light-card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px var(--light-card-shadow);
+            margin-bottom: 40px;
+            border: 1px solid var(--light-border-color);
+        }
+
+        #main-content.dark-mode form {
+            background-color: var(--dark-card-bg);
+            box-shadow: 0 4px 15px var(--dark-card-shadow);
+            border: 1px solid var(--dark-border-color);
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--light-text-color);
+        }
+
+        #main-content.dark-mode form label {
+            color: var(--dark-text-color);
+        }
+
+        form input[type="number"],
+        form input[type="text"],
+        form input[type="float"],
+        form input[type="email"],
+        form select {
+            width: calc(100% - 24px); /* Account for padding and border */
+            padding: 10px 12px;
+            border: 1.5px solid var(--light-input-border);
+            border-radius: 8px;
+            font-size: 1em;
+            color: var(--light-text-color);
+            background-color: var(--light-card-bg);
+            outline: none;
+            transition: border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 15px;
+        }
+
+        #main-content.dark-mode form input[type="number"],
+        #main-content.dark-mode form input[type="text"],
+        #main-content.dark-mode form input[type="float"],
+        #main-content.dark-mode form input[type="email"],
+        #main-content.dark-mode form select {
+            border: 1.5px solid var(--dark-input-border);
+            color: var(--dark-text-color);
+            background-color: var(--dark-card-bg);
+        }
+
+        form input[type="number"]:focus,
+        form input[type="text"]:focus,
+        form input[type="float"]:focus,
+        form input[type="email"]:focus,
+        form select:focus {
+            border-color: var(--light-input-focus-border);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2); /* Cyan glow */
+        }
+
+        #main-content.dark-mode form input[type="number"]:focus,
+        #main-content.dark-mode form input[type="text"]:focus,
+        #main-content.dark-mode form input[type="float"]:focus,
+        #main-content.dark-mode form input[type="email"]:focus,
+        #main-content.dark-mode form select:focus {
+            border-color: var(--dark-input-focus-border);
+            box-shadow: 0 0 0 3px rgba(0, 255, 255, 0.2); /* Electric blue glow */
+        }
+
+        form button {
+            background-color: var(--light-button-bg);
+            color: var(--light-button-text);
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            font-size: 1em;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        form button:hover {
+            background-color: var(--light-button-hover-bg);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        #main-content.dark-mode form button {
+            background-color: var(--dark-button-bg);
+            color: var(--dark-button-text);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        #main-content.dark-mode form button:hover {
+            background-color: var(--dark-button-hover-bg);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        form > div.grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        form > div.grid label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            border: 2px solid var(--light-radio-border);
+            border-radius: 10px;
+            background-color: var(--light-radio-bg);
+            cursor: pointer;
+            transition: border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+            color: var(--light-text-color);
+        }
+
+        #main-content.dark-mode form > div.grid label {
+            border: 2px solid var(--dark-radio-border);
+            background-color: var(--dark-radio-bg);
+            color: var(--dark-text-color);
+        }
+
+        form > div.grid label:hover {
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        input[type="radio"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+            accent-color: var(--highlight-cyan); /* Styles the actual radio button */
+        }
+
+        #main-content.dark-mode input[type="radio"] {
+            accent-color: var(--highlight-electric-blue);
+        }
+
+        input[type="radio"]:checked + label {
+            border-color: var(--light-radio-checked-border);
+            background-color: var(--light-radio-checked-bg);
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.2); /* Cyan glow */
+            color: var(--light-text-color); /* Ensure text color is readable */
+        }
+
+        #main-content.dark-mode input[type="radio"]:checked + label {
+            border-color: var(--dark-radio-checked-border);
+            background-color: var(--dark-radio-checked-bg);
+            box-shadow: 0 4鸣 10px rgba(0, 255, 255, 0.2); /* Electric blue glow */
+            color: var(--dark-text-color);
+        }
+
+        .low-stock {
+            background-color: var(--light-message-error-bg);
+            color: var(--light-message-error-text);
+            border: 1px solid var(--light-message-error-border);
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 30px;
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.1); /* Error red shadow */
+        }
+
+        #main-content.dark-mode .low-stock {
+            background-color: var(--dark-message-error-bg);
+            color: var(--dark-message-error-text);
+            border: 1px solid var(--dark-message-error-border);
+            box-shadow: 0 4px 15px rgba(192, 57, 43, 0.2);
+        }
+
+        .low-stock h3 {
+            margin-top: 0;
+            color: var(--light-message-error-text);
+            font-size: 1.4em;
+            display: flex;
+            align-items: center;
+        }
+
+        #main-content.dark-mode .low-stock h3 {
+            color: var(--dark-message-error-text);
+        }
+
+        .low-stock h3::before {
+            content: '⚠️';
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <div id="preloader">
+        <div class="splash-container">
+            <span class="letter" id="letter-i">I</span>
+            <span class="letter" id="letter-t">T</span>
+            <div class="final-logo" id="final-logo">InvTree</div>
+        </div>
+    </div>
+
+    <div id="main-content" style="display:none;">
+        <div class="theme-switch-wrapper">
+            <label class="theme-switch" for="checkbox">
+                <input type="checkbox" id="checkbox" />
+                <div class="slider round"></div>
+            </label>
+        </div>
+
+        <h1>Inventory Dashboard</h1>
+
+        <nav>
+            <a href="{{ url_for('inventory') }}">INVTREE</a>
+            <a href="{{ url_for('sales') }}">Sales Insights</a>
+            <a href="{{ url_for('pos') }}" target="_blank">Point of Sale</a>
+            <a href="{{ url_for('logout') }}">Sign Out</a>
+            <a href="{{ url_for('dashboard') }}" >↻</a>
+        </nav>
+
+        <div class="stats-container">
+            <div class="card">
+                <h2>Total Products</h2>
+                <p>{{ total_products }}</p>
+            </div>
+            <div class="card">
+                <h2>Total Stock Value</h2>
+                <p>${{ "%.2f"|format(stock_value) }}</p>
+            </div>
+            <div class="card">
+                <h2>Total Items Sold</h2>
+                <p>{{ total_items_sold }}</p>
+            </div>
+            <div class="card">
+                <h2>Total Sales Value</h2>
+                <p>${{ "%.2f"|format(total_sales_value) }}</p>
+            </div>
+        </div>
+
+        {% if low_stock %}
+            <div class="low-stock">
+                <h3>Low Stock Alert</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product Name</th>
+                            <th>Quantity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in low_stock %}
+                            <tr>
+                                <td>{{ item.name }}</td>
+                                <td>{{ item.quantity }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    </div>
+
+    <script>
+        window.onload = function () {
+            const i = document.getElementById("letter-i");
+            const t = document.getElementById("letter-t");
+            const logo = document.getElementById("final-logo");
+            const preloader = document.getElementById("preloader");
+            const mainContent = document.getElementById("main-content");
+            const toggleSwitch = document.getElementById('checkbox');
+
+            // Step 1: Show letters
+            i.style.opacity = 1;
+            t.style.opacity = 1;
+
+            // Step 2: Animate letters toward center
+            setTimeout(() => {
+                i.style.transform = "translateX(100px)";
+                t.style.transform = "translateX(-215px)";
+            }, 100);
+
+            // Step 3: Splash effect and show "TnvTree"
+            setTimeout(() => {
+                i.style.opacity = 0;
+                t.style.opacity = 0;
+                logo.style.opacity = 1;
+                logo.style.transform = "scale(1)";
+            }, 1500);
+
+            // Step 4: Hide preloader and show main content
+            setTimeout(() => {
+                preloader.style.opacity = 0;
+                preloader.style.transition = "opacity 1s";
+            }, 3000);
+
+            setTimeout(() => {
+                preloader.style.display = "none";
+                mainContent.style.display = "block";
+                document.body.style.overflow = "auto"; // Re-enable scrolling
+
+                // Dashboard Theme Switch Logic (moved here to apply after splash)
+                const currentTheme = localStorage.getItem('theme');
+
+                if (currentTheme) {
+                    mainContent.classList.add(currentTheme); // Apply to main-content
+                    if (currentTheme === 'dark-mode') {
+                        toggleSwitch.checked = true;
+                    }
+                }
+
+                function switchTheme(e) {
+                    if (e.target.checked) {
+                        mainContent.classList.add('dark-mode');
+                        localStorage.setItem('theme', 'dark-mode');
+                    } else {
+                        mainContent.classList.remove('dark-mode');
+                        localStorage.setItem('theme', 'light-mode');
+                    }
+                }
+
+                toggleSwitch.addEventListener('change', switchTheme, false);
+
+            }, 4000);
+        };
+    </script>
+</body>
+</html>

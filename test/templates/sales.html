@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Analytics - Modern</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Modern Technological Sophistication Theme Colors */
+            --base-dark: #2C3E50; /* Muted Navy - Primary background/deep elements */
+            --base-charcoal: #212121; /* Deep Charcoal - Stronger accents, text */
+            --accent-white: #ECF0F1; /* Off-White - General text, light backgrounds */
+            --accent-pure-white: #FFFFFF; /* Pure White - Crisp elements, card backgrounds */
+            --highlight-cyan: #3498DB; /* Cool, Desaturated Cyan - Innovation, interactive elements */
+            --highlight-electric-blue: #00FFFF; /* Electric Blue - Strongest highlights, active states */
+
+            /* Neutral Tones for borders and subtle elements */
+            --border-light-gray: #BDC3C7;
+            --border-dark-gray: #4A6070;
+
+            /* Action/Alert Colors (adjusted for theme) */
+            --action-revoke: #F39C12; /* Muted Orange for 'Revoke' - Caution */
+            --action-delete: #E74C3C; /* Red for 'Delete' - Danger */
+            --action-primary: #3498DB; /* Cyan for primary actions/links */
+
+            --alert-info-bg: #D6EAF8; /* Light blue for general alerts */
+            --alert-info-text: #2874A6;
+            --alert-info-border: #85C1E9;
+
+            --alert-warning-bg: #FCF3CF; /* Light yellow for warnings */
+            --alert-warning-text: #B7950B;
+            --alert-warning-border: #F7DC6A;
+
+            --alert-error-bg: #FDEDEC; /* Light red for errors */
+            --alert-error-text: #C0392B;
+            --alert-error-border: #E74C3C;
+
+            --alert-success-bg: #D4EFDF; /* Light green for success */
+            --alert-success-text: #28B463;
+            --alert-success-border: #2ECC71;
+
+            --border-radius-elements: 8px; /* Consistent border radius */
+            --border-radius-containers: 12px;
+            --border-radius-buttons: 6px;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--base-dark); /* Deep, sophisticated background */
+            color: var(--accent-white); /* Light text on dark background */
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Navigation Links */
+        .nav-links {
+            margin-bottom: 25px;
+            display: flex;
+            gap: 20px; /* Space between links */
+        }
+        .nav-links a {
+            color: var(--highlight-cyan);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 15px;
+            border-radius: var(--border-radius-buttons);
+            transition: background-color 0.3s ease, color 0.3s ease;
+            font-size: 1.05em;
+            border: 1px solid var(--highlight-cyan);
+        }
+        .nav-links a:hover {
+            background-color: var(--highlight-cyan);
+            color: var(--base-charcoal);
+            box-shadow: 0 0 15px rgba(52, 152, 219, 0.4);
+        }
+
+
+        h2 {
+            color: var(--highlight-electric-blue); /* Electric blue for main headings */
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 700;
+            font-size: 2.2em;
+            letter-spacing: 1px;
+        }
+
+        .container {
+            background-color: var(--base-charcoal); /* Dark card background */
+            padding: 30px;
+            border-radius: var(--border-radius-containers);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); /* Deeper shadow */
+            width: 95%;
+            max-width: 1400px;
+            box-sizing: border-box;
+            border: 1px solid var(--border-dark-gray); /* Subtle container border */
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: var(--border-radius-elements);
+            margin-bottom: 25px;
+            text-align: center;
+            font-weight: 500;
+            border: 1px solid;
+        }
+        .alert.error {
+            background-color: var(--alert-error-bg);
+            color: var(--alert-error-text);
+            border-color: var(--alert-error-border);
+        }
+        .alert.warning {
+            background-color: var(--alert-warning-bg);
+            color: var(--alert-warning-text);
+            border-color: var(--alert-warning-border);
+        }
+        .alert.success {
+            background-color: var(--alert-success-bg);
+            color: var(--alert-success-text);
+            border-color: var(--alert-success-border);
+        }
+        /* Default alert if no category is provided (using info style) */
+        .alert:not(.error):not(.warning):not(.success) {
+            background-color: var(--alert-info-bg);
+            color: var(--alert-info-text);
+            border-color: var(--alert-info-border);
+        }
+
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 0 auto 30px auto;
+            border-radius: var(--border-radius-containers);
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            background-color: #34495E; /* Slightly lighter navy for table body */
+            border: 1px solid var(--border-dark-gray);
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #4A6070; /* Darker border for separation */
+            color: var(--accent-white); /* Light text for table content */
+        }
+
+        th {
+            background-color: var(--base-charcoal); /* Deep charcoal for table header */
+            color: var(--highlight-electric-blue); /* Electric blue text on header */
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.9em;
+            letter-spacing: 0.8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: rgba(0, 0, 0, 0.1); /* Subtle dark stripe */
+        }
+
+        tr:hover {
+            background-color: #4A6070; /* Hover effect with a darker navy */
+            transition: background-color 0.3s ease;
+        }
+
+        .btn {
+            padding: 8px 15px;
+            font-size: 0.9em; /* Slightly larger for clarity */
+            border: none;
+            border-radius: var(--border-radius-buttons);
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            font-weight: 600;
+            margin: 3px;
+            display: inline-block;
+            text-transform: uppercase; /* Modern, clean look */
+        }
+
+        .btn.revoke {
+            background-color: var(--action-revoke); /* Muted orange for revoke */
+            color: var(--base-charcoal);
+        }
+        .btn.danger {
+            background-color: var(--action-delete); /* Red for delete */
+            color: var(--accent-pure-white);
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+        .btn.revoke:hover {
+            background-color: #E67E22; /* Brighter orange on hover */
+        }
+        .btn.danger:hover {
+            background-color: #C0392B; /* Darker red on hover */
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            .nav-links {
+                flex-direction: column;
+                gap: 10px;
+                margin-bottom: 20px;
+            }
+            .nav-links a {
+                width: 100%;
+                text-align: center;
+                padding: 10px;
+            }
+            .container {
+                padding: 20px;
+            }
+            table, thead, tbody, th, td, tr {
+                display: block;
+            }
+            thead tr {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+            tr {
+                border: 1px solid var(--border-dark-gray);
+                margin-bottom: 15px;
+                border-radius: var(--border-radius-containers);
+                background-color: #34495E;
+            }
+            td {
+                border: none;
+                position: relative;
+                padding-left: 50%;
+                text-align: left;
+            }
+            td:before {
+                content: attr(data-label);
+                position: absolute;
+                left: 10px;
+                width: 45%;
+                padding-right: 10px;
+                white-space: nowrap;
+                font-weight: 700;
+                color: var(--highlight-cyan);
+            }
+            td:first-of-type {
+                border-top-left-radius: var(--border-radius-containers);
+                border-top-right-radius: var(--border-radius-containers);
+            }
+            td:last-of-type {
+                border-bottom-left-radius: var(--border-radius-containers);
+                border-bottom-right-radius: var(--border-radius-containers);
+                border-bottom: none;
+            }
+            .btn {
+                width: calc(100% - 6px); /* Adjust for margin */
+                margin: 3px auto;
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="nav-links">
+        <a href="{{ url_for('dashboard') }}" >HOME</a>
+        <a href="{{ url_for('inventory') }}">View Inventory</a>
+        
+        <a href="{{ url_for('pos') }}" target="_blank">New Sale</a>
+        <a href="{{ url_for('sales') }}">↻</a>
+
+    </div>
+
+<div class="container">
+    <h2>Transaction History</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert {{ category if category != 'message' else '' }}">
+                    <p>{{ message }}</p>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <table>
+        <thead>
+            <tr>
+                <th>Transaction ID</th>
+                <th>Product Name</th>
+                <th>Quantity Sold</th>
+                <th>Final Price</th>
+                <th>Base Price</th>
+                <th>VAT Status</th>
+                <th>Sale Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for s in sales %}
+            <tr>
+                <td data-label="Transaction ID">{{ s['id'] }}</td>
+                <td data-label="Product Name">{{ s['product_name'] }}</td>
+                <td data-label="Quantity Sold">{{ s['quantity'] }}</td>
+                <td data-label="Final Price">${{ "%.2f"|format(s['total_price']) }}</td>
+                <td data-label="Base Price">
+                    {% if s['custom_price'] %}
+                        ${{ "%.2f"|format(s['custom_price']) }}
+                    {% else %}
+                        Default
+                    {% endif %}
+                </td>
+                <td data-label="VAT Status">{{ s['vat_applied']|capitalize }}</td>
+                <td data-label="Sale Date">{{ s['timestamp'] }}</td>
+                <td data-label="Actions">
+                    <form method="POST" style="display:inline-block;" onsubmit="return confirm('Are you sure you want to revoke this sale? This action will restore stock.');">
+                        <input type="hidden" name="action" value="revoke_sale">
+                        <input type="hidden" name="sale_id" value="{{ s['id'] }}">
+                        <button type="submit" class="btn revoke">Revoke Sale</button>
+                    </form>
+                    <form method="POST" style="display:inline-block;" onsubmit="return confirm('WARNING: This will PERMANENTLY delete the sale record and WILL NOT replenish stock. Proceed?');">
+                        <input type="hidden" name="action" value="delete_sale">
+                        <input type="hidden" name="sale_id" value="{{ s['id'] }}">
+                        <button type="submit" class="btn danger">Delete Record</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

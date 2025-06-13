@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login - POS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Modern Technological Sophistication Theme Colors */
+            --base-dark: #2C3E50; /* Muted Navy - Primary background */
+            --base-charcoal: #212121; /* Deep Charcoal - Login container background */
+            --accent-white: #ECF0F1; /* Off-White - General text */
+            --accent-pure-white: #FFFFFF; /* Pure White - Crisp elements, button text */
+            --highlight-cyan: #3498DB; /* Cool, Desaturated Cyan - Input borders, focus, subtle accents */
+            --highlight-electric-blue: #00FFFF; /* Electric Blue - Button hover, strong highlights */
+
+            /* Neutral Tones for borders and subtle elements */
+            --border-light-gray: #BDC3C7;
+            --border-dark-gray: #4A6070;
+
+            /* Alert/Message Color (adjusted for theme) */
+            --message-error-text: #E74C3C; /* Red for error messages */
+            --message-error-bg: #FDEDEC; /* Very light red background for error messages */
+            --message-error-border: #D32F2F; /* Darker red border for error messages */
+
+            --border-radius-elements: 8px; /* Consistent border radius for inputs, buttons */
+            --border-radius-containers: 12px; /* Slightly larger for main containers */
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif; /* Modern, clean font */
+            background-color: var(--base-dark); /* Deep, sophisticated background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; /* Use min-height for better responsiveness */
+            color: var(--accent-white); /* Light text on dark background */
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .login-container {
+            background-color: var(--base-charcoal); /* Darker, sleek container */
+            padding: 40px; /* Increased padding for more space */
+            border-radius: var(--border-radius-containers);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5); /* Deeper, more noticeable shadow */
+            width: 100%;
+            max-width: 420px; /* Slightly wider for better spacing */
+            box-sizing: border-box; /* Include padding in width calculation */
+            border: 1px solid var(--border-dark-gray); /* Subtle border for definition */
+            position: relative; /* Needed for potential future animations or overlays */
+            overflow: hidden; /* Ensures shadows/borders are contained */
+        }
+
+        h2 {
+            margin-top: 0;
+            margin-bottom: 30px; /* More space below heading */
+            text-align: center;
+            color: var(--highlight-electric-blue); /* Eye-catching electric blue */
+            font-weight: 700; /* Bolder for impact */
+            font-size: 2.2em; /* Larger heading */
+            letter-spacing: 1.5px; /* Subtle letter spacing */
+            text-transform: uppercase; /* Modern, clean look */
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 15px 18px; /* Larger padding for better touch targets and aesthetics */
+            margin-bottom: 20px; /* More space between inputs */
+            border: 1px solid var(--border-dark-gray); /* Subtle dark border */
+            border-radius: var(--border-radius-elements);
+            font-size: 1.1em; /* Slightly larger font inside inputs */
+            background-color: var(--base-dark); /* Dark input background */
+            color: var(--accent-white); /* Light text within inputs */
+            box-sizing: border-box;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            outline: none; /* Remove default outline */
+        }
+
+        input[type="text"]::placeholder,
+        input[type="password"]::placeholder {
+            color: var(--border-light-gray); /* Lighter placeholder text */
+            opacity: 0.8; /* Slightly transparent */
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            border-color: var(--highlight-cyan); /* Cyan border on focus */
+            box-shadow: 0 0 8px rgba(52, 152, 219, 0.6); /* Cyan glow effect on focus */
+        }
+
+        button {
+            width: 100%;
+            padding: 15px; /* Consistent padding with inputs */
+            background-color: var(--highlight-cyan); /* Cyan for primary action */
+            color: var(--base-dark); /* Dark text on cyan button */
+            font-size: 1.15em; /* Larger, more prominent text */
+            font-weight: 600; /* Semi-bold */
+            border: none;
+            border-radius: var(--border-radius-elements);
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            letter-spacing: 0.5px;
+            text-transform: uppercase; /* Modern, clean look */
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3); /* Subtle shadow for depth */
+        }
+
+        button:hover {
+            background-color: var(--highlight-electric-blue); /* Electric blue on hover */
+            color: var(--base-charcoal); /* Darker text on vibrant hover */
+            transform: translateY(-2px); /* Slight lift effect */
+            box-shadow: 0 6px 15px rgba(0,0,0,0.4); /* Enhanced shadow on hover */
+        }
+
+        .msg {
+            color: var(--message-error-text); /* Red for error messages */
+            background-color: var(--message-error-bg); /* Light red background */
+            border: 1px solid var(--message-error-border); /* Red border */
+            padding: 10px 15px;
+            border-radius: var(--border-radius-elements);
+            text-align: center;
+            margin-bottom: 20px; /* Space below message */
+            font-size: 0.95em;
+            font-weight: 500;
+        }
+
+        /* Responsive adjustments for smaller screens */
+        @media (max-width: 500px) {
+            .login-container {
+                padding: 30px 20px; /* Reduce padding on smaller screens */
+                margin: 0 15px; /* Add horizontal margin to prevent sticking to edges */
+            }
+            h2 {
+                font-size: 1.8em; /* Slightly smaller heading */
+                margin-bottom: 25px;
+            }
+            input[type="text"], input[type="password"], button {
+                padding: 12px 15px; /* Adjust input/button padding */
+                font-size: 1em; /* Adjust font size */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>System Login</h2>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                <div class="msg">{{ message }}</div>
+            {% endfor %}
+        {% endwith %}
+        <form method="post">
+            <input type="text" name="username" placeholder="Username" required autofocus>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit">Secure Login</button>
+        </form>
+    </div>
+</body>
+</html>
